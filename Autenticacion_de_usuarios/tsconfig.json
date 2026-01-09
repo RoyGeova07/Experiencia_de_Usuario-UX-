@@ -5,6 +5,7 @@
     "rootDir": "./",
     "outDir": "./dist",
     "esModuleInterop": true,
+    "typeRoots": ["./node_modules/@types", "./types"],
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
