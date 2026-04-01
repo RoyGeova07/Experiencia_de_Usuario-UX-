@@ -9,17 +9,34 @@
         //dependencia externa , vanila
         import{io}from'https://cdn.socket.io/4.3.2/socket.io.esm.min.js'
 
-        const socket=io()
+        const socket=io({
+
+            auth:{
+
+                //esto es para evitar problemas de tiempo entre el cliente y el servidor, 
+                //se le dice que no hay diferencia de tiempo entre el cliente y el servidor
+                serverOffset:0
+
+
+            }
+
+        })
         const form=document.getElementById('form')//traemos el formulario
         const input=document.getElementById('input')//input para poder leer la informacion del mensaje
         const messages=document.getElementById('messages')//aqui es donde se van a guardar los mensajes 
+        
 
         //cuando en el socket reciba un mensage de 'chat message', se recibira como parametro el mensaje 
-        socket.on('chat message',(msg)=>
+        socket.on('chat message',(msg,serverOffset)=>
         {
 
             const item=`<li>${msg}</li>`
             messages.insertAdjacentHTML('beforeend',item)//antes de q termine el elemento e insertar el html del item
+            //aqui se actualiza el serverOffset cada vez que se recibe un mensaje, 
+            //esto es para evitar problemas de tiempo entre el cliente y el servidor
+            //en resumen es para no mezclar los mensajes, para que se muestren en el orden correcto, 
+            //y para evitar problemas de tiempo entre el cliente y el servidor
+            socket.auth.serverOffset=serverOffset
 
         })
 
